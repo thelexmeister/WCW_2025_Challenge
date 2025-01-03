@@ -16,8 +16,8 @@ headers = {
 }
 
 # GitHub API URL for accessing the file in the repository
-repo_url = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{CSV_FILE}'
-
+repo_url = f'https://api.github.com/{REPO_OWNER}/{REPO_NAME}/blob/main/{CSV_FILE}'
+      
 # Load data from an Excel file
 df = pd.read_excel('WCW_2025 - players and prices.xlsx')
 
@@ -107,7 +107,7 @@ if st.button("Save Team") and team_name:
     csv_data = teams_df.to_csv(index=False)
 
     # Prepare the data to update the file
-    update_url = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{CSV_FILE}'
+    update_url =  f'https://api.github.com/{REPO_OWNER}/{REPO_NAME}/blob/main/{CSV_FILE}'
     data = {
         'message': f"Added team '{team_name}' with total price {total_price}",
         'content': requests.utils.quote(csv_data),  # base64 encode the CSV
