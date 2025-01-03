@@ -56,16 +56,20 @@ selected_players = [qb, rb1, rb2, wr1, wr2, te, k, dst] + flex
 #st.write("Your selected players:", selected_players)
 
 # Calculate and display the price of the selected players
+# Calculate and display the price of the selected players
 total_price = 0
 for player in selected_players:
-    price = filtered_df[filtered_df['Player'] == player]['Price'].values[0]
-    
-    # Ensure the price is a whole number
-    price = round(price)  # Option 1: Round the price to the nearest whole number
-    # Alternatively, use: price = int(price)  # Option 2: Convert to integer (drops decimals)
-    
-    total_price += price
-    st.write(f"{player}: ${price}")
+    # Filter to get the row for the selected player
+    player_row = filtered_df[filtered_df['Player'] == player]
+
+    # Check if the player exists in the filtered dataframe
+    if player_row.empty:
+        st.warning(f"Player '{player}' not found in the filtered list.")
+    else:
+        # Retrieve the price if the player exists
+        price = player_row['Price'].values[0]
+        total_price += price
+        st.write(f"{player}: ${price}")
 
 # Display the total price with conditional coloring
 if total_price <= 12000:
