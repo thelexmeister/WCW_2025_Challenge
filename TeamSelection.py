@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # GitHub Repository details
-REPO_URL = "https://github.com/thelexmeister/WCW_2025_Challenge.git"
+REPO_URL = "https:/github.com/thelexmeister/WCW_2025_Challenge.git"
 #REPO_PATH = "/path/to/your/local/repository"  # Local path where the repo is cloned
 GITHUB_TOKEN = "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"  # GitHub Personal Access Token (PAT)
 
