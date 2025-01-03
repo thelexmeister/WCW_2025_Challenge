@@ -4,8 +4,8 @@ import os
 from git import Repo
 
 # GitHub Repository details
-REPO_URL = "https:/github.com/thelexmeister/WCW_2025_Challenge.git"
-REPO_PATH = "/thelexmeister/WCW_2025_Challenge"  # Local path where the repo is cloned
+REPO_URL = "https://github.com/thelexmeister/WCW_2025_Challenge.git"
+REPO_PATH = "https://github.com/thelexmeister/WCW_2025_Challenge.git" # Local path where the repo is cloned
 GITHUB_TOKEN = "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"  # GitHub Personal Access Token (PAT)
 
 # Load data from an Excel file
