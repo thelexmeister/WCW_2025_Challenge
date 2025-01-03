@@ -82,12 +82,6 @@ for player in selected_players:
         total_price += price
         st.write(f"{player}: ${price}")
 
-# Display the total price with conditional coloring
-if total_price <= 12000:
-    st.markdown(f"<h3 style='color:green;'>Total Price: ${total_price}</h3>", unsafe_allow_html=True)
-else:
-    st.markdown(f"<h3 style='color:red;'>Total Price: ${total_price}</h3>", unsafe_allow_html=True)
-
 # Save the selected team to GitHub (only if a team name is provided)
 if st.button("Save Team") and team_name:
     try:
@@ -105,9 +99,9 @@ if st.button("Save Team") and team_name:
         # If the file does not exist or cannot be fetched, create a new one
         teams_df = pd.DataFrame(columns=['Team Name', 'Players', 'Total Price'])
     
-    # Add new team to the DataFrame
-    new_team = {'Team Name': team_name, 'Players': ', '.join(selected_players), 'Total Price': total_price}
-    teams_df = teams_df.append(new_team, ignore_index=True)
+    # Add new team to the DataFrame using pd.concat (instead of append)
+    new_team = pd.DataFrame({'Team Name': [team_name], 'Players': [', '.join(selected_players)], 'Total Price': [total_price]})
+    teams_df = pd.concat([teams_df, new_team], ignore_index=True)
 
     # Convert DataFrame to CSV format and upload it back to GitHub
     csv_data = teams_df.to_csv(index=False)
