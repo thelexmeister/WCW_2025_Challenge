@@ -7,7 +7,7 @@ df = pd.read_excel('players.xlsx')
 # App Header
 st.header("Welcome to the 2025 WCW Challenge")
 st.write("Use the table and the dropdowns to pick your team.")
-st.write("You have $12,000. CLICK the save button at the end to save your team."
+st.write("You have $12,000. CLICK the save button at the end to save your team.")
 
 # Add a position filter (selectbox to choose a position)
 position_filter = st.selectbox("Select Position", ['All', 'QB', 'RB', 'WR', 'TE'])
