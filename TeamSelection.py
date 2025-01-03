@@ -4,12 +4,21 @@ import pandas as pd
 # Load data from an Excel file
 df = pd.read_excel('WCW_2025 - players and prices.xlsx')
 
-# Display the dataframe (for debugging purposes, you can remove this line later)
-st.write(df)
-
 # App Header
-st.header("Your Fantasy Team")
+st.header("Time to pick your 2025 WCW Challenge Team")
+st.write("You have $15,000 to spend - spend it wisely")
 
+# Add a position filter (selectbox to choose a position)
+position_filter = st.selectbox("Select Position", ['All', 'QB', 'RB', 'WR', 'TE'])
+
+# Filter the dataframe based on selected position
+if position_filter != 'All':
+    filtered_df = df[df['Position'] == position_filter]
+else:
+    filtered_df = df
+
+# Display the filtered dataframe (for debugging purposes)
+st.write(filtered_df)
 # Select players for each position (filter players by position)
 qb = st.selectbox("Select Quarterback", df[df['Position'] == 'QB']['Player'].tolist(), key="qb_select")
 rb1 = st.selectbox("Select Running Back 1", df[df['Position'] == 'RB']['Player'].tolist(), key="rb1_select")
