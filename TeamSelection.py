@@ -65,7 +65,7 @@ else:
 if st.button("Save Team"):
     # Example: Save to a CSV or append to an existing list
     team_data = {'Player': selected_players}
-    team_position = {'Position': position}
+    #team_position = {'Position': position}
     team_df = pd.DataFrame(team_data)
     team_df['Total Price'] = total_price
     team_df.to_csv(f"{qb}_team.csv", index=False)  # Saves the team to a CSV file based on QB's name
