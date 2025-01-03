@@ -4,5 +4,4 @@ pandas
 openpyxl
 plotly
 scipy
-git
-repo
+gitpython
