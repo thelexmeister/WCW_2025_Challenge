@@ -24,6 +24,13 @@ else:
 # Display the filtered dataframe (for debugging purposes)
 st.write(filtered_df)
 
+# Input field for team name
+team_name = st.text_input("Enter your team name", "")
+
+# Ensure team name is not empty before allowing to save
+if not team_name:
+    st.warning("Please enter a team name before saving.")
+
 # Select players for each position
 qb = st.selectbox("Select Quarterback",      filtered_df[filtered_df['Position'] == 'QB']['Player'].tolist(), key="qb_select")
 rb1 = st.selectbox("Select Running Back 1",  filtered_df[filtered_df['Position'] == 'RB']['Player'].tolist(), key="rb1_select")
@@ -61,14 +68,17 @@ if total_price <= 12000:
 else:
     st.markdown(f"<h3 style='color:red;'>Total Price: ${total_price}</h3>", unsafe_allow_html=True)
 
-# Save the selected team (optional)
-if st.button("Save Team"):
-    # Example: Save to a CSV or append to an existing list
+# Save the selected team under the custom name (optional)
+if st.button("Save Team") and team_name:
+    # Example: Save to a CSV with the team name as the filename
     team_data = {'Player': selected_players}
-    #team_position = {'Position': position}
     team_df = pd.DataFrame(team_data)
     team_df['Total Price'] = total_price
-    team_df.to_csv(f"{qb}_team.csv", index=False)  # Saves the team to a CSV file based on QB's name
-    st.success("Your team has been saved!")
+    team_df.to_csv(f"{team_name}_team.csv", index=False)  # Saves the team with the custom name
+    st.success(f"Your team '{team_name}' has been saved!")
+
+# If no name is entered, warn the user
+if team_name == "":
+    st.warning("You must enter a team name to save.")
 
 
