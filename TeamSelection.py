@@ -1,9 +1,11 @@
 import streamlit as st
 import pandas as pd
+import os
+from git import Repo
 
 # GitHub Repository details
 REPO_URL = "https:/github.com/thelexmeister/WCW_2025_Challenge.git"
-#REPO_PATH = "/path/to/your/local/repository"  # Local path where the repo is cloned
+REPO_PATH = "/home/thelexmeister/WCW_2025_Challenge"  # Local path where the repo is cloned
 GITHUB_TOKEN = "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"  # GitHub Personal Access Token (PAT)
 
 # Load data from an Excel file
@@ -18,7 +20,7 @@ st.write("Use the table and the dropdowns to pick your team.")
 st.write("You have $12,000. CLICK the save button at the end to save your team.")
 
 # Add a position filter (selectbox to choose a position)
-position_filter = st.selectbox("Select Position - use this dropdown to filter by position", ['All', 'QB', 'RB', 'WR', 'TE','K','DST'])
+position_filter = st.selectbox("Select Position - use this dropdown to filter by position", ['All', 'QB', 'RB', 'WR', 'TE', 'K', 'DST'])
 
 # Filter the dataframe based on selected position
 if position_filter != 'All':
@@ -37,25 +39,24 @@ if not team_name:
     st.warning("Please enter a team name before saving.")
 
 # Select players for each position
-qb = st.selectbox("Select Quarterback",      filtered_df[filtered_df['Position'] == 'QB']['Player'].tolist(), key="qb_select")
-rb1 = st.selectbox("Select Running Back 1",  filtered_df[filtered_df['Position'] == 'RB']['Player'].tolist(), key="rb1_select")
-rb2 = st.selectbox("Select Running Back 2",  filtered_df[filtered_df['Position'] == 'RB']['Player'].tolist(), key="rb2_select")
+qb = st.selectbox("Select Quarterback", filtered_df[filtered_df['Position'] == 'QB']['Player'].tolist(), key="qb_select")
+rb1 = st.selectbox("Select Running Back 1", filtered_df[filtered_df['Position'] == 'RB']['Player'].tolist(), key="rb1_select")
+rb2 = st.selectbox("Select Running Back 2", filtered_df[filtered_df['Position'] == 'RB']['Player'].tolist(), key="rb2_select")
 wr1 = st.selectbox("Select Wide Receiver 1", filtered_df[filtered_df['Position'] == 'WR']['Player'].tolist(), key="wr1_select")
 wr2 = st.selectbox("Select Wide Receiver 2", filtered_df[filtered_df['Position'] == 'WR']['Player'].tolist(), key="wr2_select")
-te  = st.selectbox("Select Tight End",       filtered_df[filtered_df['Position'] == 'TE']['Player'].tolist(), key="te_select")
-k   = st.selectbox("Select a Kicker",        filtered_df[filtered_df['Position'] == 'K']['Player'].tolist(), key="k_select")
-dst = st.selectbox("Select a Defense",       filtered_df[filtered_df['Position'] == 'DST']['Player'].tolist(), key="dst_select")
+te = st.selectbox("Select Tight End", filtered_df[filtered_df['Position'] == 'TE']['Player'].tolist(), key="te_select")
+k = st.selectbox("Select a Kicker", filtered_df[filtered_df['Position'] == 'K']['Player'].tolist(), key="k_select")
+dst = st.selectbox("Select a Defense", filtered_df[filtered_df['Position'] == 'DST']['Player'].tolist(), key="dst_select")
 
 # Select flex players (RB, WR, TE)
-flex = st.multiselect("Select Flex Players", filtered_df[(filtered_df['Position'] == 'RB') | (filtered_df['Position'] == 'WR') | (filtered_df['Position'] == 'TE')]['Player'].tolist(), max_selections=2, key="flex_select")
+flex = st.multiselect("Select Flex Players", filtered_df[(filtered_df['Position'] == 'RB') | (filtered_df['Position'] == 'WR') | (filtered_df['Position'] == 'TE')]['Player'].tolist(), key="flex_select")
 
 # Combine selected players into a list
 selected_players = [qb, rb1, rb2, wr1, wr2, te, k, dst] + flex
 
 # Display the selected players
-#st.write("Your selected players:", selected_players)
+st.write("Your selected players:", selected_players)
 
-# Calculate and display the price of the selected players
 # Calculate and display the price of the selected players
 total_price = 0
 for player in selected_players:
@@ -110,4 +111,3 @@ if st.button("Save Team") and team_name:
     
     except Exception as e:
         st.error(f"An error occurred while saving to GitHub: {str(e)}")
-
