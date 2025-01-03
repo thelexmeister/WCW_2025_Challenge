@@ -6,7 +6,7 @@ df = pd.read_excel('WCW_2025 - players and prices.xlsx')
 
 # App Header
 st.header("Time to pick your 2025 WCW Challenge Team")
-st.write("You have $15,000 to spend - spend it wisely")
+st.write("You have $12,000 to spend - spend it wisely")
 
 # Add a position filter (selectbox to choose a position)
 position_filter = st.selectbox("Select Position", ['All', 'QB', 'RB', 'WR', 'TE'])
@@ -28,7 +28,7 @@ wr2 = st.selectbox("Select Wide Receiver 2", df[df['Position'] == 'WR']['Player'
 te = st.selectbox("Select Tight End", df[df['Position'] == 'TE']['Player'].tolist(), key="te_select")
 
 # Select flex players (RB, WR, TE)
-flex = st.multiselect("Select Flex Players", df[(df['Position'] == 'RB') | (df['Position'] == 'WR') | (df['Position'] == 'TE')]['Player'].tolist(), max_selections=2, key="flex_select")
+flex = st.multiselect("Select 2 Flex Players", df[(df['Position'] == 'RB') | (df['Position'] == 'WR') | (df['Position'] == 'TE')]['Player'].tolist(), max_selections=2, key="flex_select")
 
 # Combine selected players into a list
 selected_players = [qb, rb1, rb2, wr1, wr2, te] + flex
