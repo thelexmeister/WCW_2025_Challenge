@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # Load data from an Excel file
-df = pd.read_excel('players.xlsx')
+df = pd.read_excel('WCW_2025 - players and prices.xlsx')
 
 # Display the dataframe (for debugging purposes, you can remove this line later)
 st.write(df)
