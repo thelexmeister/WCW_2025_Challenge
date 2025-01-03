@@ -1,6 +1,11 @@
 import streamlit as st
 import pandas as pd
 
+# GitHub Repository details
+REPO_URL = "https://github.com/thelexmeister/WCW_2025_Challenge.git"
+#REPO_PATH = "/path/to/your/local/repository"  # Local path where the repo is cloned
+GITHUB_TOKEN = "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"  # GitHub Personal Access Token (PAT)
+
 # Load data from an Excel file
 df = pd.read_excel('WCW_2025 - players and prices.xlsx')
 
@@ -68,17 +73,37 @@ if total_price <= 12000:
 else:
     st.markdown(f"<h3 style='color:red;'>Total Price: ${total_price}</h3>", unsafe_allow_html=True)
 
-# Save the selected team under the custom name (optional)
+# Save the selected team to GitHub (only if a team name is provided)
 if st.button("Save Team") and team_name:
-    # Example: Save to a CSV with the team name as the filename
+    # Save the team data to a CSV file locally
     team_data = {'Player': selected_players}
     team_df = pd.DataFrame(team_data)
     team_df['Total Price'] = total_price
-    team_df.to_csv(f"{team_name}_team.csv", index=False)  # Saves the team with the custom name
-    st.success(f"Your team '{team_name}' has been saved!")
+    csv_filename = f"{team_name}_team.csv"
+    team_df.to_csv(csv_filename, index=False)
 
-# If no name is entered, warn the user
-if team_name == "":
-    st.warning("You must enter a team name to save.")
-
+    # Now commit and push to GitHub
+    try:
+        # Clone the repository (if it's not already cloned)
+        if not os.path.exists(REPO_PATH):
+            Repo.clone_from(REPO_URL, REPO_PATH, branch="main")
+        
+        # Open the cloned repository
+        repo = Repo(REPO_PATH)
+        
+        # Copy the file into the local repository directory (make sure the path is correct)
+        os.rename(csv_filename, os.path.join(REPO_PATH, csv_filename))
+        
+        # Add the new file to the git repository
+        repo.index.add([csv_filename])
+        repo.index.commit(f"Added team '{team_name}' with total price {total_price}")
+        
+        # Push changes to GitHub
+        origin = repo.remotes.origin
+        origin.push()
+        
+        st.success(f"Your team '{team_name}' has been saved to GitHub!")
+    
+    except Exception as e:
+        st.error(f"An error occurred while saving to GitHub: {str(e)}")
 
