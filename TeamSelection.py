@@ -10,7 +10,7 @@ st.write("Use the table and the dropdowns to pick your team.")
 st.write("You have $12,000. CLICK the save button at the end to save your team.")
 
 # Add a position filter (selectbox to choose a position)
-position_filter = st.selectbox("Select Position", ['All', 'QB', 'RB', 'WR', 'TE'])
+position_filter = st.selectbox("Select Position - use this dropdown to filter by position", ['All', 'QB', 'RB', 'WR', 'TE'])
 
 # Filter the dataframe based on selected position
 if position_filter != 'All':
