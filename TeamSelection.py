@@ -4,6 +4,9 @@ import pandas as pd
 # Load data from an Excel file
 df = pd.read_excel('WCW_2025 - players and prices.xlsx')
 
+# Round the 'Price' column to whole numbers
+df['Price'] = df['Price'].round(0).astype(int)
+
 # App Header
 st.header("Welcome to the 2025 WCW Challenge")
 st.write("Use the table and the dropdowns to pick your team.")
