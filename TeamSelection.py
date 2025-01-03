@@ -1,12 +1,22 @@
-import streamlit as st
 import pandas as pd
-import os
-from git import Repo
+import streamlit as st
+import requests
+from io import StringIO
 
 # GitHub Repository details
-REPO_URL = "https://github.com/thelexmeister/WCW_2025_Challenge.git"
-REPO_PATH = "https://github.com/thelexmeister/WCW_2025_Challenge.git" # Local path where the repo is cloned
-GITHUB_TOKEN = "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"  # GitHub Personal Access Token (PAT)
+REPO_OWNER = 'thelexmeister'  # Replace with your GitHub username
+REPO_NAME = 'WCW_2025_Challenge'     # Replace with your repository name
+CSV_FILE = 'selected_teams.csv'               # The file where teams are stored
+GITHUB_TOKEN = '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'   # Replace with your GitHub Personal Access Token
+
+# Set up the GitHub API headers
+headers = {
+    'Authorization': f'token {GITHUB_TOKEN}',
+    'Accept': 'application/vnd.github.v3.raw',  # To fetch raw file content
+}
+
+# GitHub API URL for accessing the file in the repository
+repo_url = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{CSV_FILE}'
 
 # Load data from an Excel file
 df = pd.read_excel('WCW_2025 - players and prices.xlsx')
@@ -80,34 +90,38 @@ else:
 
 # Save the selected team to GitHub (only if a team name is provided)
 if st.button("Save Team") and team_name:
-    # Save the team data to a CSV file locally
-    team_data = {'Player': selected_players}
-    team_df = pd.DataFrame(team_data)
-    team_df['Total Price'] = total_price
-    csv_filename = f"{team_name}_team.csv"
-    team_df.to_csv(csv_filename, index=False)
-
-    # Now commit and push to GitHub
     try:
-        # Clone the repository (if it's not already cloned)
-        if not os.path.exists(REPO_PATH):
-            Repo.clone_from(REPO_URL, REPO_PATH, branch="main")
-        
-        # Open the cloned repository
-        repo = Repo(REPO_PATH)
-        
-        # Copy the file into the local repository directory (make sure the path is correct)
-        os.rename(csv_filename, os.path.join(REPO_PATH, csv_filename))
-        
-        # Add the new file to the git repository
-        repo.index.add([csv_filename])
-        repo.index.commit(f"Added team '{team_name}' with total price {total_price}")
-        
-        # Push changes to GitHub
-        origin = repo.remotes.origin
-        origin.push()
-        
-        st.success(f"Your team '{team_name}' has been saved to GitHub!")
+        # Fetch the existing CSV content from GitHub
+        response = requests.get(repo_url, headers=headers)
+        response.raise_for_status()
+
+        # Decode and load the CSV content into a DataFrame
+        file_content = response.json()['content']
+        file_content = requests.utils.unquote(file_content)
+        decoded_content = StringIO(file_content)
+        teams_df = pd.read_csv(decoded_content)
+
+    except requests.exceptions.RequestException as e:
+        # If the file does not exist or cannot be fetched, create a new one
+        teams_df = pd.DataFrame(columns=['Team Name', 'Players', 'Total Price'])
     
-    except Exception as e:
-        st.error(f"An error occurred while saving to GitHub: {str(e)}")
+    # Add new team to the DataFrame
+    new_team = {'Team Name': team_name, 'Players': ', '.join(selected_players), 'Total Price': total_price}
+    teams_df = teams_df.append(new_team, ignore_index=True)
+
+    # Convert DataFrame to CSV format and upload it back to GitHub
+    csv_data = teams_df.to_csv(index=False)
+
+    # Prepare the data to update the file
+    update_url = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{CSV_FILE}'
+    data = {
+        'message': f"Added team '{team_name}' with total price {total_price}",
+        'content': requests.utils.quote(csv_data),  # base64 encode the CSV
+        'sha': response.json()['sha'] if 'sha' in response.json() else '',  # To ensure the correct file version
+    }
+
+    # Update the file via the GitHub API
+    update_response = requests.put(update_url, json=data, headers=headers)
+    update_response.raise_for_status()
+
+    st.success(f"Your team '{team_name}' has been saved to GitHub!")
