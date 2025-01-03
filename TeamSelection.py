@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # Load data from an Excel file
-df = pd.read_excel('players.xlsx')
+df = pd.read_excel('WCW_2025 - players and prices.xlsx')
 
 # App Header
 st.header("Welcome to the 2025 WCW Challenge")
