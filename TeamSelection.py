@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 
 # Load data from an Excel file
-# Make sure the Excel file is placed in the same directory as your script or provide the full path to the file
 df = pd.read_excel('players.xlsx')
 
 # Display the dataframe (for debugging purposes, you can remove this line later)
@@ -28,14 +27,18 @@ selected_players = [qb, rb1, rb2, wr1, wr2, te] + flex
 # Display the selected players
 st.write("Your selected players:", selected_players)
 
-# Display the price of the selected players
+# Calculate and display the price of the selected players
 total_price = 0
 for player in selected_players:
     price = df[df['Player'] == player]['Price'].values[0]
     total_price += price
     st.write(f"{player}: ${price}")
 
-st.write(f"Total Price: ${total_price}")
+# Display the total price with conditional coloring
+if total_price <= 15000:
+    st.markdown(f"<h3 style='color:green;'>Total Price: ${total_price}</h3>", unsafe_allow_html=True)
+else:
+    st.markdown(f"<h3 style='color:red;'>Total Price: ${total_price}</h3>", unsafe_allow_html=True)
 
 # Save the selected team (optional)
 if st.button("Save Team"):
@@ -45,4 +48,5 @@ if st.button("Save Team"):
     team_df['Total Price'] = total_price
     team_df.to_csv(f"{qb}_team.csv", index=False)  # Saves the team to a CSV file based on QB's name
     st.success("Your team has been saved!")
+
 
