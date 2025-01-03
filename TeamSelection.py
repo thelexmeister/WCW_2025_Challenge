@@ -1,18 +1,17 @@
 import streamlit as st
 import pandas as pd
 
-# Example dataframe (replace with actual data)
-data = {
-    'Player': ['Player A', 'Player B', 'Player C', 'Player D', 'Player E', 'Player F', 'Player G', 'Player H'],
-    'Position': ['QB', 'RB', 'RB', 'WR', 'WR', 'TE', 'RB', 'WR']
-}
+# Load data from an Excel file
+# Make sure the Excel file is placed in the same directory as your script or provide the full path to the file
+df = pd.read_excel('players.xlsx')
 
-df = pd.DataFrame(data)
+# Display the dataframe (for debugging purposes, you can remove this line later)
+st.write(df)
 
 # App Header
 st.header("Your Fantasy Team")
 
-# Select players for each position
+# Select players for each position (filter players by position)
 qb = st.selectbox("Select Quarterback", df[df['Position'] == 'QB']['Player'].tolist(), key="qb_select")
 rb1 = st.selectbox("Select Running Back 1", df[df['Position'] == 'RB']['Player'].tolist(), key="rb1_select")
 rb2 = st.selectbox("Select Running Back 2", df[df['Position'] == 'RB']['Player'].tolist(), key="rb2_select")
@@ -26,13 +25,24 @@ flex = st.multiselect("Select Flex Players", df[(df['Position'] == 'RB') | (df['
 # Combine selected players into a list
 selected_players = [qb, rb1, rb2, wr1, wr2, te] + flex
 
-# Show selected players
+# Display the selected players
 st.write("Your selected players:", selected_players)
 
-# Save selected team (optional)
+# Display the price of the selected players
+total_price = 0
+for player in selected_players:
+    price = df[df['Player'] == player]['Price'].values[0]
+    total_price += price
+    st.write(f"{player}: ${price}")
+
+st.write(f"Total Price: ${total_price}")
+
+# Save the selected team (optional)
 if st.button("Save Team"):
     # Example: Save to a CSV or append to an existing list
     team_data = {'Player': selected_players}
     team_df = pd.DataFrame(team_data)
+    team_df['Total Price'] = total_price
     team_df.to_csv(f"{qb}_team.csv", index=False)  # Saves the team to a CSV file based on QB's name
     st.success("Your team has been saved!")
+
