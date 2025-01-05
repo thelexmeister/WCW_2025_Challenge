@@ -31,7 +31,7 @@ with col1:
         
     # Display the filtered dataframe (for debugging purposes)
     #st.write(filtered_df)
-    st.dataframe(filtered_df, height=600) 
+    st.dataframe(df, height=600) 
 
 with col2:
     # Select players for each position
@@ -60,7 +60,7 @@ st.sidebar.write(f"<span style='color:red; font-size:16px; display:inline;'>Team
 total_price = 0
 for player in selected_players:
     # Filter to get the row for the selected player
-    player_row = filtered_df[filtered_df['Player'] == player]
+    player_row = df[df['Player'] == player]
 
     # Check if the player exists in the filtered dataframe
     if player_row.empty:
