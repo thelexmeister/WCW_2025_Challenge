@@ -46,7 +46,7 @@ selected_players = [qb, rb1, rb2, wr1, wr2, te] + flex + [k, dst]
 st.write("Your selected players:")
 st.write(" ")
 #st.write("<h5 style='color:blue;'> Team Name:</h5> ", team_name, unsafe_allow_html=True)
-st.write(f"<span style='color:blue; font-size:16px; display:inline;'>Team Name: </span><span style='font-size:16px; display:inline;'>{team_name}</span>", unsafe_allow_html=True)
+st.write(f"<span style='color:red; font-size:16px; display:inline;'>Team Name: </span><span style='font-size:16px; display:inline;'>{team_name}</span>", unsafe_allow_html=True)
 # Calculate and display the price of the selected players
 total_price = 0
 for player in selected_players:
