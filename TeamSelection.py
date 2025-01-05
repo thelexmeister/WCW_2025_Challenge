@@ -1,8 +1,5 @@
 import pandas as pd
 import streamlit as st
-import requests
-import base64
-from io import StringIO
 
 # Load data from an Excel file
 df = pd.read_excel('WCW_2025 - players and prices.xlsx')
@@ -68,3 +65,9 @@ for player in selected_players:
         price = player_row['Price'].values[0]
         total_price += price
         st.write(f"{player}: ${price}")
+
+# Display the total price with color based on condition
+if total_price > 12000:
+    st.markdown(f"<h3 style='color:red;'>Total Price: ${total_price}</h3>", unsafe_allow_html=True)
+else:
+    st.markdown(f"<h3 style='color:green;'>Total Price: ${total_price}</h3>", unsafe_allow_html=True)
