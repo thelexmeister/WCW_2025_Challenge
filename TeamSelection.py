@@ -13,34 +13,42 @@ st.write("Use the table and the dropdowns to pick your team.")
 st.write("You have $12,000. Once you have settled on your team, send me a screenshot of your team via text.")
 # Input field for team name
 team_name = st.text_input("Enter your team name", "")
-# Add a position filter (selectbox to choose a position)
-position_filter = st.selectbox("Select Position - use this dropdown to filter by position", ['All', 'QB', 'RB', 'WR', 'TE', 'K', 'DST'])
 
-# Filter the dataframe based on selected position
-if position_filter != 'All':
-    filtered_df = df[df['Position'] == position_filter]
-else:
-    filtered_df = df
+
+# Create two columns for layout
+col1, col2 = st.columns(2)
+
+# Left Column - Your Team
+with col1:
+    # Add a position filter (selectbox to choose a position)
+    position_filter = st.selectbox("Select Position - use this dropdown to filter by position", ['All', 'QB', 'RB', 'WR', 'TE', 'K', 'DST'])
     
-# Display the filtered dataframe (for debugging purposes)
-st.write(filtered_df)
+    # Filter the dataframe based on selected position
+    if position_filter != 'All':
+        filtered_df = df[df['Position'] == position_filter]
+    else:
+        filtered_df = df
+        
+    # Display the filtered dataframe (for debugging purposes)
+    st.write(filtered_df)
 
-# Select players for each position
-qb = st.selectbox("Select Quarterback", filtered_df[filtered_df['Position'] == 'QB']['Player'].tolist(), key="qb_select")
-rb1 = st.selectbox("Select Running Back 1", filtered_df[filtered_df['Position'] == 'RB']['Player'].tolist(), key="rb1_select")
-rb2 = st.selectbox("Select Running Back 2", filtered_df[filtered_df['Position'] == 'RB']['Player'].tolist(), key="rb2_select")
-wr1 = st.selectbox("Select Wide Receiver 1", filtered_df[filtered_df['Position'] == 'WR']['Player'].tolist(), key="wr1_select")
-wr2 = st.selectbox("Select Wide Receiver 2", filtered_df[filtered_df['Position'] == 'WR']['Player'].tolist(), key="wr2_select")
-te = st.selectbox("Select Tight End", filtered_df[filtered_df['Position'] == 'TE']['Player'].tolist(), key="te_select")
-
-# Select flex players (RB, WR, TE)
-flex = st.multiselect("Select Flex Players", filtered_df[(filtered_df['Position'] == 'RB') | (filtered_df['Position'] == 'WR') | (filtered_df['Position'] == 'TE')]['Player'].tolist(), key="flex_select")
-
-k = st.selectbox("Select a Kicker", filtered_df[filtered_df['Position'] == 'K']['Player'].tolist(), key="k_select")
-dst = st.selectbox("Select a Defense", filtered_df[filtered_df['Position'] == 'DST']['Player'].tolist(), key="dst_select")
-
-# Combine selected players into a list
-selected_players = [qb, rb1, rb2, wr1, wr2, te] + flex + [k, dst]
+with col2:
+    # Select players for each position
+    qb = st.selectbox("Select Quarterback", filtered_df[filtered_df['Position'] == 'QB']['Player'].tolist(), key="qb_select")
+    rb1 = st.selectbox("Select Running Back 1", filtered_df[filtered_df['Position'] == 'RB']['Player'].tolist(), key="rb1_select")
+    rb2 = st.selectbox("Select Running Back 2", filtered_df[filtered_df['Position'] == 'RB']['Player'].tolist(), key="rb2_select")
+    wr1 = st.selectbox("Select Wide Receiver 1", filtered_df[filtered_df['Position'] == 'WR']['Player'].tolist(), key="wr1_select")
+    wr2 = st.selectbox("Select Wide Receiver 2", filtered_df[filtered_df['Position'] == 'WR']['Player'].tolist(), key="wr2_select")
+    te = st.selectbox("Select Tight End", filtered_df[filtered_df['Position'] == 'TE']['Player'].tolist(), key="te_select")
+    
+    # Select flex players (RB, WR, TE)
+    flex = st.multiselect("Select Flex Players", filtered_df[(filtered_df['Position'] == 'RB') | (filtered_df['Position'] == 'WR') | (filtered_df['Position'] == 'TE')]['Player'].tolist(), key="flex_select")
+    
+    k = st.selectbox("Select a Kicker", filtered_df[filtered_df['Position'] == 'K']['Player'].tolist(), key="k_select")
+    dst = st.selectbox("Select a Defense", filtered_df[filtered_df['Position'] == 'DST']['Player'].tolist(), key="dst_select")
+    
+    # Combine selected players into a list
+    selected_players = [qb, rb1, rb2, wr1, wr2, te] + flex + [k, dst]
 
 # Display the selected players
 st.write("Your selected players:")
