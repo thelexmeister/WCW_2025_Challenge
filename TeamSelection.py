@@ -59,7 +59,7 @@ for player in selected_players:
         # Retrieve the price if the player exists
         price = player_row['Price'].values[0]
         total_price += price
-        st.write(f"<h3 style='color:blue;'>{player}: ${price}</h3>")
+        st.markdown(f"<h3 style='color:blue;'>Player: {player}: ${price}</h3>")
 
 # Display the total price with color based on condition
 if total_price > 12000:
