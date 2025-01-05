@@ -11,7 +11,8 @@ df['Price'] = df['Price'].round(0).astype(int)
 st.header("Welcome to the 2025 WCW Challenge")
 st.write("Use the table and the dropdowns to pick your team.")
 st.write("You have $12,000. Once you have settled on your team, send me a screenshot of your team via text.")
-
+# Input field for team name
+team_name = st.text_input("Enter your team name", "")
 # Add a position filter (selectbox to choose a position)
 position_filter = st.selectbox("Select Position - use this dropdown to filter by position", ['All', 'QB', 'RB', 'WR', 'TE', 'K', 'DST'])
 
@@ -21,9 +22,6 @@ if position_filter != 'All':
 else:
     filtered_df = df
     
-# Input field for team name
-team_name = st.text_input("Enter your team name", "")
-
 # Display the filtered dataframe (for debugging purposes)
 st.write(filtered_df)
 
