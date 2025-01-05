@@ -51,27 +51,43 @@ with col2:
     # Combine selected players into a list
     selected_players = [qb, rb1, rb2, wr1, wr2, te] + flex + [k, dst]
 
-# Display the selected players
-st.sidebar.write("Your selected players:")
-st.sidebar.write(" ")
-#st.write("<h5 style='color:blue;'> Team Name:</h5> ", team_name, unsafe_allow_html=True)
-st.sidebar.write(f"<span style='color:red; font-size:16px; display:inline;'>Team Name: </span><span style='font-size:16px; display:inline;'>{team_name}</span>", unsafe_allow_html=True)
-# Calculate and display the price of the selected players
-total_price = 0
-for player in selected_players:
-    # Filter to get the row for the selected player
-    player_row = df[df['Player'] == player]
+# Sidebar styling using CSS to make sure the sidebar is visible and fixed
+st.markdown("""
+    <style>
+        /* Make sidebar fixed and always open */
+        .css-1d391kg {  /* Adjust this class name as per your Streamlit version */
+            position: fixed !important;
+            left: 0 !important;
+            top: 0 !important;
+            height: 100vh !important;
+            width: 250px !important; /* Set width of sidebar */
+        }
+        
+        /* Adjust content's margin to account for sidebar */
+        .css-1outpf7 {  
+            margin-left: 250px !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
-    # Check if the player exists in the filtered dataframe
-    if player_row.empty:
-        st.sidebar.warning(f"Player '{player}' not found in the filtered list.")
-    else:
-        # Retrieve the price if the player exists
-        price = player_row['Price'].values[0]
-        total_price += price
-        st.sidebar.write(f"<span style='color:blue; font-size:16px; display:inline;'>{player}: </span><span style='font-size:16px; display:inline;'>${price}</span>", unsafe_allow_html=True)
-# Display the total price with color based on condition
-if total_price > 12000:
-    st.sidebar.markdown(f"<h3 style='color:red;'>Total Price: ${total_price}</h3>", unsafe_allow_html=True)
-else:
-    st.sidebar.markdown(f"<h3 style='color:green;'>Total Price: ${total_price}</h3>", unsafe_allow_html=True)
+# Sidebar content
+with st.sidebar:
+    st.write("Your selected players:")
+    st.write(" ")
+    
+    # Team Name display with custom styling
+    st.write(f"<span style='color:red; font-size:16px; display:inline;'>Team Name: </span><span style='font-size:16px; display:inline;'>{team_name}</span>", unsafe_allow_html=True)
+    
+    # Calculate and display the price of the selected players
+    total_price = 0
+    for player in selected_players:
+        player_row = df[df['Player'] == player]
+        
+        # Ensure player exists in the filtered data
+        if player_row.empty:
+            st.sidebar.warning(f"Player '{player}' not found in the filtered list.")
+        else:
+            price = player_row['Price'].values[0]
+            total_price += price
+            # Display each player's price in the sidebar
+            st.sidebar.write(f"<span style='color:blue; font-size:16px; display:inline;'>{player}: </span><span style='font-size:16px; display:inline;'>${price}</span>", unsafe_allow_html=True)
