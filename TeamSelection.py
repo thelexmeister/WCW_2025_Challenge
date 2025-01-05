@@ -49,7 +49,7 @@ dst = st.selectbox("Select a Defense", filtered_df[filtered_df['Position'] == 'D
 selected_players = [qb, rb1, rb2, wr1, wr2, te] + flex + [k, dst]
 
 # Display the selected players
-#st.write("Your selected players:", selected_players)
+st.write("Your selected players:")
 
 # Calculate and display the price of the selected players
 total_price = 0
