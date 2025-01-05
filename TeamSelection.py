@@ -8,7 +8,7 @@ from io import StringIO
 REPO_OWNER = 'thelexmeister'  # Replace with your GitHub username
 REPO_NAME = 'WCW_2025_Challenge'     # Replace with your repository name
 CSV_FILE = 'selected_teams.csv'               # The file where teams are stored
-GITHUB_TOKEN = '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'   # Replace with your GitHub Personal Access Token
+GITHUB_TOKEN = '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'   # Replace with your GitHub Personal Access Token
 
 # Set up the GitHub API headers
 headers = {
