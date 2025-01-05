@@ -24,13 +24,6 @@ else:
 # Display the filtered dataframe (for debugging purposes)
 st.write(filtered_df)
 
-# Input field for team name
-team_name = st.text_input("Enter your team name", "")
-
-# Ensure team name is not empty before allowing to save
-if not team_name:
-    st.warning("Please enter a team name before saving.")
-
 # Select players for each position
 qb = st.selectbox("Select Quarterback", filtered_df[filtered_df['Position'] == 'QB']['Player'].tolist(), key="qb_select")
 rb1 = st.selectbox("Select Running Back 1", filtered_df[filtered_df['Position'] == 'RB']['Player'].tolist(), key="rb1_select")
