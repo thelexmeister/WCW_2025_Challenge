@@ -13,7 +13,7 @@ df['Price'] = df['Price'].round(0).astype(int)
 # App Header
 st.header("Welcome to the 2025 WCW Challenge")
 st.write("Use the table and the dropdowns to pick your team.")
-st.write("You have $12,000. CLICK the save button at the end to save your team.")
+st.write("You have $12,000. Once you have settled on your team, send me a screenshot of your team via text.")
 
 # Add a position filter (selectbox to choose a position)
 position_filter = st.selectbox("Select Position - use this dropdown to filter by position", ['All', 'QB', 'RB', 'WR', 'TE', 'K', 'DST'])
@@ -41,14 +41,15 @@ rb2 = st.selectbox("Select Running Back 2", filtered_df[filtered_df['Position'] 
 wr1 = st.selectbox("Select Wide Receiver 1", filtered_df[filtered_df['Position'] == 'WR']['Player'].tolist(), key="wr1_select")
 wr2 = st.selectbox("Select Wide Receiver 2", filtered_df[filtered_df['Position'] == 'WR']['Player'].tolist(), key="wr2_select")
 te = st.selectbox("Select Tight End", filtered_df[filtered_df['Position'] == 'TE']['Player'].tolist(), key="te_select")
-k = st.selectbox("Select a Kicker", filtered_df[filtered_df['Position'] == 'K']['Player'].tolist(), key="k_select")
-dst = st.selectbox("Select a Defense", filtered_df[filtered_df['Position'] == 'DST']['Player'].tolist(), key="dst_select")
 
 # Select flex players (RB, WR, TE)
 flex = st.multiselect("Select Flex Players", filtered_df[(filtered_df['Position'] == 'RB') | (filtered_df['Position'] == 'WR') | (filtered_df['Position'] == 'TE')]['Player'].tolist(), key="flex_select")
 
+k = st.selectbox("Select a Kicker", filtered_df[filtered_df['Position'] == 'K']['Player'].tolist(), key="k_select")
+dst = st.selectbox("Select a Defense", filtered_df[filtered_df['Position'] == 'DST']['Player'].tolist(), key="dst_select")
+
 # Combine selected players into a list
-selected_players = [qb, rb1, rb2, wr1, wr2, te, k, dst] + flex
+selected_players = [qb, rb1, rb2, wr1, wr2, te] + flex + [k, dst]
 
 # Display the selected players
 st.write("Your selected players:", selected_players)
