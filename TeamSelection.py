@@ -4,21 +4,6 @@ import requests
 import base64
 from io import StringIO
 
-# GitHub Repository details
-REPO_OWNER = 'thelexmeister'  # Replace with your GitHub username
-REPO_NAME = 'WCW_2025_Challenge'     # Replace with your repository name
-CSV_FILE = 'selected_teams.csv'               # The file where teams are stored
-GITHUB_TOKEN = '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'   # Replace with your GitHub Personal Access Token
-
-# Set up the GitHub API headers
-headers = {
-    'Authorization': f'token {GITHUB_TOKEN}',
-    'Accept': 'application/vnd.github.v3.raw',  # To fetch raw file content
-}
-
-# GitHub API URL for accessing the file in the repository
-repo_url = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{CSV_FILE}'
-
 # Load data from an Excel file
 df = pd.read_excel('WCW_2025 - players and prices.xlsx')
 
@@ -82,42 +67,3 @@ for player in selected_players:
         price = player_row['Price'].values[0]
         total_price += price
         st.write(f"{player}: ${price}")
-
-# Save the selected team to GitHub (only if a team name is provided)
-if st.button("Save Team") and team_name:
-    try:
-        # Fetch the existing CSV content from GitHub
-        response = requests.get(repo_url, headers=headers)
-        response.raise_for_status()
-
-        # Decode and load the CSV content into a DataFrame
-        file_content = response.json()['content']
-        file_content = base64.b64decode(file_content).decode('utf-8')
-        decoded_content = StringIO(file_content)
-        teams_df = pd.read_csv(decoded_content)
-
-    except requests.exceptions.RequestException as e:
-        # If the file does not exist or cannot be fetched, create a new one
-        teams_df = pd.DataFrame(columns=['Team Name', 'Players', 'Total Price'])
-
-    # Add new team to the DataFrame using pd.concat (instead of append)
-    new_team = pd.DataFrame({'Team Name': [team_name], 'Players': [', '.join(selected_players)], 'Total Price': [total_price]})
-    teams_df = pd.concat([teams_df, new_team], ignore_index=True)
-
-    # Convert DataFrame to CSV format and base64 encode the CSV content
-    csv_data = teams_df.to_csv(index=False)
-    encoded_csv = base64.b64encode(csv_data.encode('utf-8')).decode('utf-8')
-
-    # Prepare the data to update the file
-    update_url = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{CSV_FILE}'
-    data = {
-        'message': f"Added team '{team_name}' with total price {total_price}",
-        'content': encoded_csv,  # base64 encoded CSV
-        'sha': response.json()['sha'] if 'sha' in response.json() else '',  # To ensure the correct file version
-    }
-
-    # Update the file via the GitHub API
-    update_response = requests.put(update_url, json=data, headers=headers)
-    update_response.raise_for_status()
-
-    st.success(f"Your team '{team_name}' has been saved to GitHub!")
