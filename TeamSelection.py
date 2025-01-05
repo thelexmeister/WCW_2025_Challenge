@@ -30,7 +30,7 @@ with col1:
         filtered_df = df
         
     # Display the filtered dataframe (for debugging purposes)
-    st.write(filtered_df)
+    #st.write(filtered_df)
     st.dataframe(filtered_df, height=600) 
 
 with col2:
