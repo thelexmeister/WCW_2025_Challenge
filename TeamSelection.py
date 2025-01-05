@@ -85,13 +85,13 @@ with st.sidebar:
     total_price = 0
     for player in selected_players:
         player_row = df[df['Player']   == player]
-        player_row = df[df['Position'] == position]
-        
+                
         # Ensure player exists in the filtered data
         if player_row.empty:
             st.sidebar.warning(f"Player '{player}' not found in the filtered list.")
         else:
             price = player_row['Price'].values[0]
+            position = player_row['Position'].values[0]
             total_price += price
             # Display each player's price in the sidebar
             st.sidebar.write(f"<span style='color:blue; font-size:16px; display:inline;'>{player}({position}): </span><span style='font-size:16px; display:inline;'>${price}</span>", unsafe_allow_html=True)
