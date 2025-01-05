@@ -84,7 +84,8 @@ with st.sidebar:
     # Calculate and display the price of the selected players
     total_price = 0
     for player in selected_players:
-        player_row = df[df['Player'] == player]
+        player_row = df[df['Player']   == player]
+        player_row = df[df['Position'] == position]
         
         # Ensure player exists in the filtered data
         if player_row.empty:
