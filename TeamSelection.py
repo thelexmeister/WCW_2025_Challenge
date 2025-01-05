@@ -31,7 +31,7 @@ with col1:
         
     # Display the filtered dataframe (for debugging purposes)
     #st.write(filtered_df)
-    st.dataframe(df, height=600) 
+    st.dataframe(filtered_df, height=600) 
 
 with col2:
     # Select players for each position
