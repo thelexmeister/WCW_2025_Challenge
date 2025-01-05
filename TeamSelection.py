@@ -54,7 +54,7 @@ for player in selected_players:
 
     # Check if the player exists in the filtered dataframe
     if player_row.empty:
-        st.warning(f"Player '{player}' not found in the filtered list.")
+        st.warning(f"<h3 style='color:blue;'>Player '{player}' not found in the filtered list.")
     else:
         # Retrieve the price if the player exists
         price = player_row['Price'].values[0]
