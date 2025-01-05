@@ -20,6 +20,9 @@ if position_filter != 'All':
     filtered_df = df[df['Position'] == position_filter]
 else:
     filtered_df = df
+    
+# Input field for team name
+team_name = st.text_input("Enter your team name", "")
 
 # Display the filtered dataframe (for debugging purposes)
 st.write(filtered_df)
@@ -43,7 +46,8 @@ selected_players = [qb, rb1, rb2, wr1, wr2, te] + flex + [k, dst]
 
 # Display the selected players
 st.write("Your selected players:")
-
+st.write(" ")
+st.write("Team Name: ", team_name)
 # Calculate and display the price of the selected players
 total_price = 0
 for player in selected_players:
