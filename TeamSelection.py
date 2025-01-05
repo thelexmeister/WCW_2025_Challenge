@@ -10,8 +10,7 @@ df['Price'] = df['Price'].round(0).astype(int)
 # App Header
 st.header("Welcome to the 2025 WCW Challenge")
 st.markdown(" ")
-st.write("Use the table below, which has all the prices for the available players, and the dropdown to filter the table by position.")
-st.write("Use the dropdowns on the right side to pick your players.")
+st.write("Use the table below, which has all the prices for the available players, and the dropdown to filter the table by position. Use the dropdowns on the right side to pick your players.")
 st.write("The players you choose will show on the sidebar (left) so you can see the total cost of your team.")
 st.write("You have $12,000. Once you have settled on your team, send me a screenshot of your team and team name, from the sidebar, via text.")
 # Input field for team name
