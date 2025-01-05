@@ -75,6 +75,7 @@ st.markdown("""
 # Sidebar content
 with st.sidebar:
     st.write("Your selected players:")
+    st.write("Don't forget to take a picture of this and send it to Lex!")
     st.write(" ")
     
     # Team Name display with custom styling
@@ -92,7 +93,7 @@ with st.sidebar:
             price = player_row['Price'].values[0]
             total_price += price
             # Display each player's price in the sidebar
-            st.sidebar.write(f"<span style='color:blue; font-size:16px; display:inline;'>{player}: </span><span style='font-size:16px; display:inline;'>${price}</span>", unsafe_allow_html=True)
+            st.sidebar.write(f"<span style='color:blue; font-size:16px; display:inline;'>{player}({position}): </span><span style='font-size:16px; display:inline;'>${price}</span>", unsafe_allow_html=True)
 
 if total_price > 12000:
     st.sidebar.markdown(f"<h3 style='color:red;'>Total Price: ${total_price}</h3>", unsafe_allow_html=True)
