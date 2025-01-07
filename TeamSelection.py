@@ -24,7 +24,7 @@ col1, col2 = st.columns(2)
 # Left Column - Your Team
 with col1:
     # Add a position filter (selectbox to choose a position)
-    position_filter = st.multiselect("Select Position - use this dropdown to filter by position", ['All', 'QB', 'RB', 'WR', 'TE', 'K', 'DST'])
+    position_filter = st.selectbox("Select Position - use this dropdown to filter by position", ['All', 'QB', 'RB', 'WR', 'TE', 'K', 'DST'])
     
     # Filter the dataframe based on selected position
     if position_filter != 'All':
