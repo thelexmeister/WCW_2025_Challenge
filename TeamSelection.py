@@ -46,8 +46,8 @@ with col2:
     te  = st.selectbox("Select Tight End",       df[df['Position'] == 'TE']['Player'].tolist(), key="te_select")
     
     # Select flex players (RB, WR, TE)
-    flex1 = st.selectbox("Select Flex Player 1", df[(df['Position'] == 'RB') | (df['Position'] == 'WR') | (df['Position'] == 'TE')]['Player'].tolist(), key="flex1_select")
-    flex2 = st.selectbox("Select Flex Player 2", df[(df['Position'] == 'RB') | (df['Position'] == 'WR') | (df['Position'] == 'TE')]['Player'].tolist(), key="flex2_select")
+    flex1 = st.multiselect("Select Flex Player 1 - one player", df[(df['Position'] == 'RB') | (df['Position'] == 'WR') | (df['Position'] == 'TE')]['Player'].tolist(), key="flex1_select")
+    flex2 = st.multiselect("Select Flex Player 2 - one player", df[(df['Position'] == 'RB') | (df['Position'] == 'WR') | (df['Position'] == 'TE')]['Player'].tolist(), key="flex2_select")
     
     k   = st.selectbox("Select a Kicker", df[df['Position'] == 'K']['Player'].tolist(), key="k_select")
     dst = st.selectbox("Select a Defense", df[df['Position'] == 'DST']['Player'].tolist(), key="dst_select")
