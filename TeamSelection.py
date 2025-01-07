@@ -46,13 +46,14 @@ with col2:
     te  = st.selectbox("Select Tight End",       df[df['Position'] == 'TE']['Player'].tolist(), key="te_select")
     
     # Select flex players (RB, WR, TE)
-    flex = st.multiselect("Select 2 Flex Players - both in the same box", df[(df['Position'] == 'RB') | (df['Position'] == 'WR') | (df['Position'] == 'TE')]['Player'].tolist(), key="flex_select")
+    flex1 = st.multiselect("Select Flex Player 1", df[(df['Position'] == 'RB') | (df['Position'] == 'WR') | (df['Position'] == 'TE')]['Player'].tolist(), key="flex1_select")
+    flex2 = st.multiselect("Select Flex Player 2", df[(df['Position'] == 'RB') | (df['Position'] == 'WR') | (df['Position'] == 'TE')]['Player'].tolist(), key="flex2_select")
     
     k   = st.selectbox("Select a Kicker", df[df['Position'] == 'K']['Player'].tolist(), key="k_select")
     dst = st.selectbox("Select a Defense", df[df['Position'] == 'DST']['Player'].tolist(), key="dst_select")
     
     # Combine selected players into a list
-    selected_players = [qb, rb1, rb2, wr1, wr2, te] + flex + [k, dst]
+    selected_players = [qb, rb1, rb2, wr1, wr2, te] + flex1 + flex2 + [k, dst]
 
 # Sidebar styling using CSS to make sure the sidebar is visible and fixed
 st.markdown("""
