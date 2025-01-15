@@ -99,7 +99,7 @@ with st.sidebar:
             st.sidebar.write(f"<span style='color:blue; font-size:16px; display:inline;'>{player}({position}): </span><span style='font-size:16px; display:inline;'>${price}</span>", unsafe_allow_html=True)
 
 if total_price > 10000:
-    st.sidebar.markdown(f"<h3 style='color:red;'>Your team, <span>{team_name}</span>, is over the salary cap. Total Price: ${total_price}</h3>", unsafe_allow_html=True)
+    st.sidebar.markdown(f"<h3 style='color:red;'>Your team, <span style='color:white;'>{team_name}</span>, is over the salary cap. Total Price: ${total_price}</h3>", unsafe_allow_html=True)
 else:
     st.sidebar.markdown(f"<h3 style='color:green;'>Total Price: ${total_price}</h3>", unsafe_allow_html=True)
             
