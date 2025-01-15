@@ -8,7 +8,7 @@ df = pd.read_excel('WCW_2025 - players and prices.xlsx')
 df['Price'] = df['Price'].round(0).astype(int)
 
 # App Header
-st.header("Welcome to the 2025 WCW Challenge")
+st.header("Welcome to the 2025 Divisional Round Challenge")
 st.markdown(" ")
 st.write("Use the table below, which has all the prices for the available players, and the dropdown to filter the table by position. Use the dropdowns on the right side to pick your players.")
 st.write("The players you choose will show on the sidebar (left) so you can see the total cost of your team.")
@@ -99,7 +99,7 @@ with st.sidebar:
             st.sidebar.write(f"<span style='color:blue; font-size:16px; display:inline;'>{player}({position}): </span><span style='font-size:16px; display:inline;'>${price}</span>", unsafe_allow_html=True)
 
 if total_price > 10000:
-    st.sidebar.markdown(f"<h3 style='color:red;'>Your team, </span><span style='font-size:16px; display:inline;{team_name}</span>,is over the salary cap. Total Price: ${total_price}</h3>", unsafe_allow_html=True)
+    st.sidebar.markdown(f"<h3 style='color:red;'>Your team, <span>{team_name}</span>, is over the salary cap. Total Price: ${total_price}</h3>", unsafe_allow_html=True)
 else:
     st.sidebar.markdown(f"<h3 style='color:green;'>Total Price: ${total_price}</h3>", unsafe_allow_html=True)
             
