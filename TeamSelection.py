@@ -13,7 +13,7 @@ st.markdown(" ")
 st.write("Use the table below, which has all the prices for the available players, and the dropdown to filter the table by position. Use the dropdowns on the right side to pick your players.")
 st.write("The players you choose will show on the sidebar (left) so you can see the total cost of your team.")
 st.write("PICK: 1 QB, 2 RB, 2 WR, 1 TE, 2 FLEX, 1 K and 1 DST")
-st.write("You have $12,000. Once you have settled on your team, send me a screenshot of your team and team name, from the sidebar, via text. If you can't see the sidebar, use the little > in the upper left corner to unhide the sidebar.")
+st.write("You have $10,000. Once you have settled on your team, send me a screenshot of your team and team name, from the sidebar, via text. If you can't see the sidebar, use the little > in the upper left corner to unhide the sidebar.")
 # Input field for team name
 team_name = st.text_input("Enter your team name", "")
 
@@ -98,8 +98,8 @@ with st.sidebar:
             # Display each player's price in the sidebar
             st.sidebar.write(f"<span style='color:blue; font-size:16px; display:inline;'>{player}({position}): </span><span style='font-size:16px; display:inline;'>${price}</span>", unsafe_allow_html=True)
 
-if total_price > 12000:
-    st.sidebar.markdown(f"<h3 style='color:red;'>Total Price: ${total_price}</h3>", unsafe_allow_html=True)
+if total_price > 10000:
+    st.sidebar.markdown(f"<h3 style='color:red;'>Your team, </span>{team_name}</span>,is over the salary cap. Total Price: ${total_price}</h3>", unsafe_allow_html=True)
 else:
     st.sidebar.markdown(f"<h3 style='color:green;'>Total Price: ${total_price}</h3>", unsafe_allow_html=True)
             
